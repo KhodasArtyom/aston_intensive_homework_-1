@@ -19,6 +19,7 @@ public class MyArrayList<T> implements MyList<T> {
      * Содержт переменную типа final, определяющую стандартный размер моего массива
      */
     private static final int ORIGINAL_SIZE = 10;
+    private static final int INCREASED_SIZE = ORIGINAL_SIZE * 2;
     /**
      * Определяет непроиницализированный массив моего списка
      */
@@ -55,7 +56,7 @@ public class MyArrayList<T> implements MyList<T> {
      */
     @Override
     public void addElement(T elem) {
-            expendArray();
+        expendArray();
         array[size++] = elem;
 
     }
@@ -101,8 +102,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public T getElement(int index) {
-        if (index < 0 || index > array.length - 1)
-            throw new IndexOutOfBoundsException();
+        checkIfCorrectIndex(index);
         return (T) array[index];
     }
 
@@ -121,9 +121,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public T deleteElementByIndex(int index) {
-        if (index < 0 || index > array.length - 1) {
-            throw new IndexOutOfBoundsException();
-        }
+       checkIfCorrectIndex(index);
         T removedElement = (T) array[index];
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
@@ -151,17 +149,19 @@ public class MyArrayList<T> implements MyList<T> {
 
     private void expendArray() {
         if (size == array.length) {
-            Object[] newArray = new Object[array.length * 2];
+            Object[] newArray = new Object[INCREASED_SIZE];
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
         }
     }
 
-    private void checkIfCorrectIndex(int index){
+    private void checkIfCorrectIndex(int index) {
         if (index < 0 || index > array.length - 1) {
             throw new IndexOutOfBoundsException();
         }
-    };
+    }
+
+    ;
 
     /**
      * Метод для быстрой сортировки с использованием Компоратора
