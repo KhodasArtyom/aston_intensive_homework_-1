@@ -18,7 +18,7 @@ public class MyArrayList<T> implements MyList<T> {
     /**
      * Содержт переменную типа final, определяющую стандартный размер моего массива
      */
-    private final int ORIGINAL_SIZE = 10;
+    private static final int ORIGINAL_SIZE = 10;
     /**
      * Определяет непроиницализированный массив моего списка
      */
