@@ -26,14 +26,14 @@ public class MyArrayList<T> implements MyList<T> {
     /**
      * Определяет размер счетчик моего массива пр добавлении элементов в список
      */
-    int size;
+    private int size;
 
     /**
      * Создаёт конструктор для того,чтобы инициализировать поля класса
      */
     public MyArrayList() {
         array = new Object[ORIGINAL_SIZE];
-        this.size = 0;
+
     }
 
     /**
@@ -55,11 +55,9 @@ public class MyArrayList<T> implements MyList<T> {
      */
     @Override
     public void addElement(T elem) {
-        if (size == array.length) {
             expendArray();
-        }
-        array[size] = elem;
-        size++;
+        array[size++] = elem;
+
     }
 
     /**
@@ -83,13 +81,8 @@ public class MyArrayList<T> implements MyList<T> {
      */
     @Override
     public void addElementByIndex(int index, T elem) {
-        if (index < 0 || index > array.length - 1) {
-            throw new IndexOutOfBoundsException();
-        }
-        if (size == array.length) {
-            expendArray();
-        }
-
+        checkIfCorrectIndex(index);
+        expendArray();
         for (int i = size; i > index; i--) {
             array[i] = array[i - 1];
         }
@@ -157,10 +150,18 @@ public class MyArrayList<T> implements MyList<T> {
      */
 
     private void expendArray() {
-        Object[] newArray = new Object[array.length * 2];
-        System.arraycopy(array, 0, newArray, 0, array.length);
-        array = newArray;
+        if (size == array.length) {
+            Object[] newArray = new Object[array.length * 2];
+            System.arraycopy(array, 0, newArray, 0, array.length);
+            array = newArray;
+        }
     }
+
+    private void checkIfCorrectIndex(int index){
+        if (index < 0 || index > array.length - 1) {
+            throw new IndexOutOfBoundsException();
+        }
+    };
 
     /**
      * Метод для быстрой сортировки с использованием Компоратора
@@ -177,7 +178,7 @@ public class MyArrayList<T> implements MyList<T> {
      * @param low        первый элемент массива
      * @param high       последний элемент массива
      * @param comparator сравне ние объектов
-     *
+     *                   <p>
      *                   Задаётся базис для выхода из вызова рекурсии
      *                   Определяется индекс опорного элемента
      *                   Проиисходит сортировка подмассивов для определения порядка
@@ -194,8 +195,9 @@ public class MyArrayList<T> implements MyList<T> {
     /**
      * Данныйы метод позволяет  разделить массив на подмассивы, значально определв опорный элемент
      * и сдвигая элементы меньше опорного в левую сторону и наоборот.
-     * @param low первый элемент
-     * @param high последний элемент
+     *
+     * @param low        первый элемент
+     * @param high       последний элемент
      * @param comparator сравнение двух элементов
      * @return воз-ся индекс опорного элемента
      */
@@ -215,7 +217,8 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     /**
-     *  Метод позволяет поменять положение элементов в массиве друг с другом
+     * Метод позволяет поменять положение элементов в массиве друг с другом
+     *
      * @param i элемент
      * @param j второй элемент
      */
@@ -226,7 +229,4 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
 
-    public static void main(String[] args) {
-
-    }
 }
